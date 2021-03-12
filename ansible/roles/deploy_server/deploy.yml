@@ -1,0 +1,36 @@
+---
+- name: Install Deploy server dependency
+  hosts: deploy_server
+  become: True
+  tasks:
+
+    - name: Install packages
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      loop:
+        - default-jre
+        - ca-certificates
+        - apt-transport-https
+        - curl
+        - gnupg
+        - lsb-release
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      loop:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io

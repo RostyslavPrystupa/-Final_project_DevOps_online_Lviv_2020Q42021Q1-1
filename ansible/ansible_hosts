@@ -2,7 +2,7 @@
 172.19.159.252 ansible_user=vagrant ansible_ssh_pass=vagrant
 
 [build_server]
-172.19.159.253 ansible_user=vagrant
+172.19.147.199 ansible_user=vagrant ansible_ssh_pass=vagrant
 
 [deploy_server]
-172.19.159.254 ansible_user=vagrant
+172.19.148.120 ansible_user=vagrant ansible_ssh_pass=vagrant

@@ -1,0 +1,9 @@
+[Unit]
+Description=fast remote file сору program daemon
+
+[Service]
+WorkingDirectory=/home/vagrant/
+ExecStart=/usr/bin/java -jar /home/vagrant/jenkins.war
+
+[Install]
+WantedBy=multi-user.target
