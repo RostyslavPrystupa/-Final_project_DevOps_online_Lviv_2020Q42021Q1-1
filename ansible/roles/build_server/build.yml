@@ -34,3 +34,15 @@
         - docker-ce
         - docker-ce-cli
         - containerd.io
+        
+    - name: Copy deamon.json
+      copy:
+        content: "{{ lookup('file', 'daemon.json') }}"
+        dest: /etc/docker/daemon.json
+
+    - name: Restart Docker
+      ansible.builtin.systemd:
+        state: restarted
+        daemon_reload: yes
+        name: docker
+
