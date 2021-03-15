@@ -1,0 +1,25 @@
+pipeline {
+    agent { label 'build' }
+
+    stages {
+        stage('Prepare') {
+            steps {
+                git 'https://github.com/RostyslavPrystupa/Python_wiki.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'sudo docker build -t python_wiki .'
+         
+            }
+        }    
+        stage('Deploy') {
+            steps {
+                sh 'sudo docker tag python_wiki 192.168.53.4:5000/python_wiki'
+                sh 'sudo docker push 192.168.53.4:5000/python_wiki'
+            }
+        }
+        
+    }
+}
+
