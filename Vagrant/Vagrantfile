@@ -1,41 +1,35 @@
 Vagrant.configure(2) do |config|
+  config.vm.box = "bento/ubuntu-20.04"
+  config.vm.box_check_update = false
+  config.ssh.insert_key = false
+
+  config.vm.define "jenkins" do |subconfig|
+    subconfig.vm.provider "virtualbox" do |vb|
+      vb.name = "jenkinsmaster"
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+    subconfig.vm.hostname = "jenkinsmaster"
+    subconfig.vm.network "private_network", ip: "192.168.53.3"
+  end
+
+  config.vm.define "build" do |subconfig|
+    subconfig.vm.provider "virtualbox" do |vb|
+      vb.name = "build"
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+    subconfig.vm.hostname = "build"
+    subconfig.vm.network "private_network", ip: "192.168.53.4"
+  end
   
-  config.vm.define "jenkins" do |jenkins|
-    jenkins.vm.box = "bento/ubuntu-20.04"
-    jenkins.vm.provider :hyperv do |jenkins_master|
-      jenkins_master.vmname = "jenkinsmaster"
-      jenkins_master.memory = 2048
-      jenkins_master.cpus = 1 
+  config.vm.define "deploy" do |subconfig|
+    subconfig.vm.provider "virtualbox" do |vb|
+      vb.name = "deploy"
+      vb.memory = 1024
+      vb.cpus = 1
     end
-    jenkins.vm.hostname = "jenkinsmaster"
-    jenkins.vm.network "public_network" 
-  end 
-
-  config.vm.define "build" do |build|
-    build.vm.box = "bento/ubuntu-20.04"
-    build.vm.provider :hyperv do |build_server|
-      build_server.vmname = "buildserver"
-      build_server.memory = 3072
-      build_server.cpus = 2
-    end
-    build.vm.hostname = "buildserver"
-    build.vm.network "public_network" 
-  end 
-
-  config.vm.define "deploy" do |deploy|
-    deploy.vm.box = "bento/ubuntu-20.04"
-    deploy.vm.provider :hyperv do |deploy_sever|
-      deploy_sever.vmname = "deployserver"
-      deploy_sever.memory = 2048
-      deploy_sever.cpus = 1
-    end
-    deploy.vm.hostname = "deployserver"
-    deploy.vm.network "public_network" 
-  end 
-
-  config.ssh.username = 'vagrant'
-  config.ssh.password = 'vagrant'
-
-  config.vm.synced_folder ".", "/vagrant", disabled: true
-
+    subconfig.vm.hostname = "deploy"
+    subconfig.vm.network "private_network", ip: "192.168.53.5"
+  end
 end
