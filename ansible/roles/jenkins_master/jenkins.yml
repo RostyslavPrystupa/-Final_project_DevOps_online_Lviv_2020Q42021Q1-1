@@ -24,7 +24,7 @@
         daemon_reload: yes
         name: jenkins_master.service
 
-    - name: Started jenkin ceservice
+    - name: Started jenkins service
       ansible.builtin.service:
         name: jenkins_master.service
         state: started
